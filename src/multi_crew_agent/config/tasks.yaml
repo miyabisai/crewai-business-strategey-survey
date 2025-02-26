@@ -1,0 +1,52 @@
+researcher_chatgpt_task:
+  description: >
+    {topic}に関する2025年度の経営方針を収集する
+  expected_output: >
+    {topic}に関する最も重要な情報を30項目のリンクをまとめる出力。
+    jsonファイルのままを出力する。
+  agent: researcher_chatgpt
+
+researcher_claude_task:
+  description: >
+    {topic}に関する2025年度の経営方針を収集する
+  expected_output: >
+    {topic}に関する最も重要な情報を30項目のリンクをまとめる出力のフォマット。
+    jsonファイルのままを出力する。
+  agent: researcher_claude
+
+researcher_gemini_task:
+  description: >
+    {topic}に関する2025年度の経営方針を収集する
+  expected_output: >
+    {topic}に関する最も重要な情報を30項目のリンクをまとめる出力のフォマット。
+    jsonファイルのままを出力する。
+  agent: researcher_gemini
+
+files_merger_task:
+  description: >
+    Merge files in knowledge folder.
+  expected_output: >
+    One file in result folder.
+  agent: files_merger
+
+
+business_analysis_task:
+  description: >
+    {topic}の2025年度の情報についていただいた情報を見直し、レポートの完全なセクションとして展開してください。
+    レポートが詳細であり、関連するすべての情報を含むようにしてください。
+    ウェブページの内容だけ参考にします。PDF、YouTube、PPTの資料は参考にしません。
+    日本語じゃない内容を日本語へ翻訳します。
+  expected_output: >
+    {topic}の2025年度経営方針報告書を作成する。報告書には市場分析、売上目標、戦略方向性、実施スケジュール、リソース配分を含める。
+    それぞれの段落の文字数を500字以上にします。どんな理由でも報告書の作成は諦めないてください。
+  agent: business_analysis
+
+
+# reporting_task:
+#   description: >
+#     Review the context you got and expand each topic into a full section for a report.
+#     Make sure the report is detailed and contains any and all relevant information.
+#   expected_output: >
+#     A fully fledged report with the main topics, each with a full section of information.
+#     Formatted as markdown without '```'
+#   agent: reporting_analyst

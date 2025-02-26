@@ -1,0 +1,23 @@
+[project]
+name = "multi_crew_agent"
+version = "0.1.0"
+description = "multi-crew-agent using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.102.0,<1.0.0"
+]
+
+[project.scripts]
+multi_crew_agent = "multi_crew_agent.main:run"
+run_crew = "multi_crew_agent.main:run"
+train = "multi_crew_agent.main:train"
+replay = "multi_crew_agent.main:replay"
+test = "multi_crew_agent.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
