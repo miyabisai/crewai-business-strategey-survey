@@ -1,7 +1,7 @@
 from crewai import Agent, Crew, Process, Task,LLM
 from crewai.project import CrewBase, agent, crew, task
 from crewai_tools import SerperDevTool,ScrapeWebsiteTool,FileReadTool,FileWriterTool,DirectoryReadTool
-from tools.merge_files_tool import MergeFilesTool
+from .tools.merge_files_tool import MergeFilesTool
 
 
 @CrewBase
