@@ -68,7 +68,7 @@ def main():
                 st.download_button(
                     label="レポートダウンロード",
                     data=result.raw,
-                    file_name="report.md",
+                    file_name=f"{topic}_report.md",
                     mime="text/plain"
                 )
             else:

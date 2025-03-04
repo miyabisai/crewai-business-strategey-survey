@@ -119,6 +119,7 @@ class MultiCrewAgent():
 			tasks=self.tasks, # Automatically created by the @task decorator
 			process=Process.sequential,
 			verbose=True,
+   			output_log_file="./log.log"
 		)
 
 
