@@ -6,21 +6,20 @@ from .tools.merge_files_tool import MergeFilesTool
 
 @CrewBase
 class MultiCrewAgent():
-	"""MultiCrewAgent crew"""
 
 	#config file
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 	#tool
 	search_tool = SerperDevTool(
-   		n_results=10,
+        n_results=10,
 		country="jp",
     	locale="jp",
     	location="Japan",
 	)
 
 	file_read_tool = FileReadTool(
-		file_path='./result/result.md'
+		file_path='./result/*'
 	)
 
 	search_result_file_path:str = './search/'
@@ -28,16 +27,16 @@ class MultiCrewAgent():
 
 	merge_files_tool = MergeFilesTool()
 
-    #Search website with chatgpt
+    # ChatGPTを使ってウェブサイトを検索
 	@agent
 	def researcher_chatgpt(self) -> Agent:
 		return Agent(
 			config=self.agents_config['researcher_chatgpt'],
 			tools=[self.search_tool],
-			llm="gpt-4o-mini",
+			llm="gemini/gemini-2.0-flash",
 			verbose=True
 		)
-	#Search website with claude
+	# Claudeを使ってウェブサイトを検索
 	@agent
 	def researcher_claude(self) -> Agent:
 		return Agent(
@@ -46,7 +45,7 @@ class MultiCrewAgent():
 			llm="gpt-4o-mini",
 			verbose=True
 		)
-	#Search website with gemini
+	# Geminiを使ってウェブサイトを検索
 	@agent
 	def researcher_gemini(self) -> Agent:
 		return Agent(
@@ -56,32 +55,43 @@ class MultiCrewAgent():
 			verbose=True
 		)
 
-	#Merge files
+	# ファイルをマージする
 	@agent
 	def files_merger(self) -> Agent:
 		return Agent(
-			config=self.agents_config['files_merger'], 
-			tools=[self.merge_files_tool], 
-			llm="gpt-4o", 
+			config=self.agents_config['files_merger'],
+			tools=[self.merge_files_tool],
+			llm="gpt-4o",
 			verbose=True
 		)
-	#Analyze business
+	# ビジネス分析を行う
 	@agent
 	def business_analysis(self) -> Agent:
 		return Agent(
 			config=self.agents_config['business_analysis'],
 			tools=[self.file_read_tool,ScrapeWebsiteTool()],
-			llm="gpt-4o",
+			llm="o1-mini",
 			verbose=True
 		)
-	
+	# ITコンサルタントのエージェント
+	@agent
+	def it_consultant(self) -> Agent:
+		return Agent(
+			config=self.agents_config['it_consultant'],
+			tools=[self.file_read_tool],
+			llm="anthropic/claude-3-7-sonnet-20250219",
+			verbose=True
+		)
+
+	# ChatGPTによる調査タスク
 	@task
 	def research_chatgpt_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['researcher_chatgpt_task'],
 			output_file=f'{self.search_result_file_path}research_report_chatgpt.md'
 		)
-	
+
+	# Claudeによる調査タスク
 	@task
 	def research_claude_task(self) -> Task:
 		return Task(
@@ -89,6 +99,7 @@ class MultiCrewAgent():
 			output_file=f'{self.search_result_file_path}research_report_claude.md'
 	)
 
+	# Geminiによる調査タスク
 	@task
 	def research_gemini_task(self) -> Task:
 		return Task(
@@ -96,6 +107,7 @@ class MultiCrewAgent():
 			output_file=f'{self.search_result_file_path}research_report_gemini.md'
 	)
 
+	# ファイルマージタスク
 	@task
 	def files_merger_task(self) -> Task:
 		return Task(
@@ -103,23 +115,30 @@ class MultiCrewAgent():
 			output_file=f'{self.output_result_file_path}llm_return.md'
 	)
 
+	# ビジネス分析タスク
 	@task
 	def business_analysis_task(self) -> Task:
 		return Task(
 			config=self.tasks_config['business_analysis_task'],
-			output_file='./result/analyze_report.md'
 	)
+
+	# ITコンサルタントによる提案タスク
+	@task
+	def it_consultant_task(self) -> Task:
+		return Task(
+			config=self.tasks_config['it_consultant_task'],
+			output_file=f'{self.output_result_file_path}analyze_report.md'
+		)
 
 	@crew
 	def crew(self) -> Crew:
-		"""Creates the MultiCrewAgent crew"""
+		"""Crew メソットを設定する"""
 
 		return Crew(
-			agents=self.agents, # Automatically created by the @agent decorator
-			tasks=self.tasks, # Automatically created by the @task decorator
+			agents=self.agents, # @agentデコレータによって自動的に作成される
+			tasks=self.tasks, # @taskデコレータによって自動的に作成される
 			process=Process.sequential,
 			verbose=True,
-   			output_log_file="./log.log"
+            output_log_file="./logs/log" # ログファイルの出力先を指定する
 		)
-
 

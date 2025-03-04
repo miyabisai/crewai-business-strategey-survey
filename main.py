@@ -6,11 +6,12 @@ import warnings
 from src.multi_crew_agent.crew import MultiCrewAgent
 from datetime import datetime
 import streamlit as st
+import logging
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 def delete_old_files():
-  
+    # ディレクトリ内の既存のファイルを削除
     result_dir = "./result"
     knowledge_dir = "./knowledge"
 
@@ -24,32 +25,24 @@ def delete_old_files():
                     elif os.path.isdir(file_path):
                         shutil.rmtree(file_path)
                 except Exception as e:
-                    print('Failed to delete %s. Reason: %s' % (file_path, e))
-
-def create_downloadable_text_file():
-    # Sample text content
-    text_content = "This is the content of the downloadable text file.\nYou can add multiple lines of text here."
-    
-    # Create a download button
-    st.download_button(
-        label="Download Text File",
-        data=text_content,
-        file_name="downloaded_text.txt",
-        mime="text/plain"
-    )
-
-def run(topic:str):
+                    print(f"Failed to delete {file_path}. Reason: {e}")
+                    st.error(f"クルーの実行中にエラーが発生しました: {e}")
+                    st.write(f"Failed to delete {file_path}. Reason: {e}")  
+                               
+                    
+def run(topic: str):
     """
     クルーを実行します。
     """
     inputs = {
-        'topic': topic,
+        'topic': topic,  # 調査対象の企業名
     }
     try:
+        # MultiCrewAgentのインスタンスを作成し、クルーを実行
         result = MultiCrewAgent().crew().kickoff(inputs=inputs)
-        # print(f"Raw Output: {result.raw}")
         return result
     except Exception as e:
+        # エラーが発生した場合、例外をraise
         raise Exception(f"クルーの実行中にエラーが発生しました: {e}")
 
 def main():
@@ -76,9 +69,8 @@ def main():
 
     except Exception as e:
         print('An error occurred while running the crew: {e}')
-        st.error(str(e))
-        exit()
-        
+        st.error("クルーの実行中にエラーが発生しました: {e}")
+        st.write(f"Exception details: {e}")        
 
 if __name__ == "__main__":
     main()

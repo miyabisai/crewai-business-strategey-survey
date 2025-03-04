@@ -38,9 +38,15 @@ business_analysis_task:
     日本語じゃない内容を日本語へ翻訳します。
   expected_output: >
     {topic}の2025年度経営方針報告書を作成する。報告書には市場分析、売上目標、戦略方向性、実施スケジュール、リソース配分を含める。
-    それぞれの段落の文字数を500字以上にします。どんな理由でも報告書の作成は諦めないてください。
+    それぞれの段落の文字数を500字以上にします。どんな理由でも報告書の作成は諦めないてください。完成したレポートをit_consultantエージェントに送ります。
   agent: business_analysis
 
+it_consultant_task:
+  description: >
+    2025年度{topic}の経営戦略のレポートを解析し、目標を達成できるようにITソリューションを提案します。
+  expected_output: >
+    作成する提案書は400字以上の提案文を含むべきです。文章は修正せずにそのまま保持してください。レポートは受け取ったレポートの最後部に提案文を追加します。
+  agent: it_consultant
 
 # reporting_task:
 #   description: >

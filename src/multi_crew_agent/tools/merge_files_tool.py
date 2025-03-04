@@ -7,19 +7,22 @@ import glob
 
 
 class MergeFilesToolInput(BaseModel):
-    """Input schema for MergeFilesTool."""
-    file_path: str = Field(..., description="The path to the directory containing the markdown files.")
+    """
+    マージ対象のMarkdownファイルがあるディレクトリのパスを入力として受け取るためのクラス。
+    """
+    file_path: str = Field(..., description="Markdownファイルが格納されているディレクトリへのパス。")
 
 
 class MergeFilesTool(BaseTool):
+    
+    """複数のMarkdownファイルを1つのファイルにマージするツール。"""
+    
     name: str = "Merge MD Files Tool"
     description: str = "Merge MD Files Tool"
     input_schema: Type[BaseModel] = MergeFilesToolInput
 
     def _run(self, input: MergeFilesToolInput):
-        """
-        Merges all markdown files in the specified directory into a single markdown file.
-        """
+        
         try:
             file_path = './search'
             output_file_path = './result'
