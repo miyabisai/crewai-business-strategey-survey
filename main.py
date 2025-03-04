@@ -56,8 +56,9 @@ def main():
     st.title("企業経営戦略調査エージェント")
     topic:str = st.text_input("会社名を入力してください:")
     st.write("レポートダウンロード：")
+    btn = st.button("送信")
     try:
-        if st.button("送信"):
+        if btn:
             delete_old_files()
             if not topic:
                 raise ValueError("会社名を入力してください。")

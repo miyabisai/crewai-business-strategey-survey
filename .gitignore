@@ -3,6 +3,4 @@ __pycache__/
 .DS_Store
 .venv/
 poetry.lock
-test/*
-knowledge/*
-result/*
+
