@@ -1,0 +1,13 @@
+.git
+.env
+.venv
+logs/*
+result/*
+search/*
+src/__pycache__/
+src/multi_crew_agent/__pycache__/
+src/multi_crew_agent/tools/__pycache__/
+poetry.lock
+
+
+

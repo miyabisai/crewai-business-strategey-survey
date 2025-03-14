@@ -1,0 +1,9 @@
+services:
+  app:
+    build:
+      context: .  # The build context (path to directory containing Dockerfile)
+      dockerfile: Dockerfile  # Specify the Dockerfile name (optional if named 'Dockerfile')
+    # Set environment variables
+    env_file: ".env"
+    ports:
+      - "8501:8501"

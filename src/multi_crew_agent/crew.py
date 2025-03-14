@@ -61,7 +61,7 @@ class MultiCrewAgent():
 		return Agent(
 			config=self.agents_config['files_merger'],
 			tools=[self.merge_files_tool],
-			llm="gpt-4o",
+			llm="gemini/gemini-2.0-flash",
 			verbose=True
 		)
 	# ビジネス分析を行う
